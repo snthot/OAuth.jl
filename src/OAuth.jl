@@ -273,7 +273,7 @@ end
 Makes `GET` or `POST` call to OAuth API.
 
 """
-function oauth_request_resource(endpoint::String, httpmethod::String, options::Dict, oauth_consumer_key::String, oauth_consumer_secret::String, oauth_token::String, oauth_token_secret::String)
+function oauth_request_resource(endpoint::String, httpmethod::String, options::Dict, oauth_consumer_key::String, oauth_consumer_secret::String, oauth_token::String, oauth_token_secret::String; kwargs...)
     #Build query string
     query_str = HTTP.escapeuri(options)
 
@@ -288,9 +288,9 @@ function oauth_request_resource(endpoint::String, httpmethod::String, options::D
         )
 
     if uppercase(httpmethod) == "POST"
-        return HTTP.post(endpoint; body = query_str, headers = headers, readtimeout=10, retry = false, redirect = true, redirect_limit = 10, connection_limit = 24, pipeline_limit = 8)
+        return HTTP.post(endpoint; body = query_str, headers = headers; kwargs...)
     elseif uppercase(httpmethod) == "GET"
-        return HTTP.get("$(endpoint)?$query_str"; headers = headers, readtimeout=10, retry = false, redirect = true, redirect_limit = 10, connection_limit = 24, pipeline_limit = 8)
+        return HTTP.get("$(endpoint)?$query_str"; headers = headers; kwargs...)
     end
 end
 
