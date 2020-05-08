@@ -268,7 +268,7 @@ function oauth_header(httpmethod, baseurl, options, oauth_consumer_key, oauth_co
 end
 
 """
-    oauth_request_resource(endpoint::String, httpmethod::String, options::Dict, oauth_consumer_key::String, oauth_consumer_secret::String, oauth_token::String, oauth_token_secret::String)
+    oauth_request_resource(endpoint::String, httpmethod::String, options::Dict, oauth_consumer_key::String, oauth_consumer_secret::String, oauth_token::String, oauth_token_secret::String; kwargs...)
 
 Makes `GET` or `POST` call to OAuth API.
 
@@ -290,7 +290,7 @@ function oauth_request_resource(endpoint::String, httpmethod::String, options::D
     if uppercase(httpmethod) == "POST"
         return HTTP.post(endpoint; body = query_str, headers = headers; kwargs...)
     elseif uppercase(httpmethod) == "GET"
-        return HTTP.get("$(endpoint)?$query_str"; headers = headers; kwargs...)
+        return HTTP.get("$(endpoint)?$query_str", headers = headers; kwargs...)
     end
 end
 
